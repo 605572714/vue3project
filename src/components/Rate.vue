@@ -11,14 +11,18 @@
 </template>
 
 <script setup>
-import { defineProps, computed, ref, defineEmits } from "vue"
+import { defineProps, defineEmits, computed, ref } from 'vue';
 let props = defineProps({
-  value: Number,
   modelValue: Number,
   theme: { type: String, default: 'orange' }
 })
+let emits = defineEmits(['update:modelValue'])
+let rate = computed(() => "★★★★★☆☆☆☆☆".slice(5 - props.modelValue, 10 - props.modelValue))
+function onRate (num) {
+  emits('update:modelValue', num)
+}
 const themeObj = {
-  'black': '#000',
+  'black': '#00',
   'white': '#fff',
   'red': '#f5222d',
   'orange': '#fa541c',
@@ -26,26 +30,19 @@ const themeObj = {
   'green': '#73d13d',
   'blue': '#40a9ff',
 }
-
 const fontstyle = computed(() => {
-  return `color:${themeObj[props.theme]}`
+  return `color:${themeObj[props.theme]};`
 })
-
-let width = ref(props.modelValue);
+// 评分宽度
+let width = ref(props.modelValue)
 function mouseOver (i) {
   width.value = i
 }
-
 function mouseOut () {
   width.value = props.modelValue
 }
-
 const fontwidth = computed(() => `width:${width.value}em;`)
-let emits = defineEmits();
 
-function onRate (num) {
-  emits('update:modelValue', num)
-}
 </script>
 
 <style scoped>
