@@ -1,12 +1,19 @@
 <template>
   <div>
+    <span class="dustbin">🗑</span>
     <input type="text" v-model="title" @keydown.enter="addTodo" />
     <ul v-if="todos.length">
       <transition-group name="flip-list" tag="ul">
-        <li v-for="todo in todos" :key="todo">
+        <li v-for="(todo,i) in todos" :key="todo">
           <input type="checkbox" v-model="todo.done" />
           <span :class="{ done: todo.done }">{{ todo.title }}</span>
+          <span class="remove-btn" @click="removeTodo($event, i)">❌</span>
         </li>
+        <div class="animate-wrap">
+          <transition @before-enter="beforeEnter" @enter="enter" @after-enter="afterEnter">
+            <div class="animate" v-show="animate.show">📋</div>
+          </transition>
+        </div>
       </transition-group>
     </ul>
     <div v-else>暂无数据</div>
@@ -24,7 +31,7 @@
 </template>
 
 <script setup>
-import { ref, computed, watchEffect } from 'vue'
+import { ref, computed, watchEffect, reactive } from 'vue'
 
 let { title, showModal, todos, addTodo, clear, active, all, allDone } = useTodos()
 function useTodos () {
@@ -73,6 +80,32 @@ function useStorage (name, value = []) {
   return data
 }
 
+let animate = reactive({
+  show: false,
+  el: null
+})
+function beforeEnter (el) {
+  let dom = animate.el;
+  let rect = dom.getBoundingClientRect();
+  let x = window.innerWidth - rect.left - 60;
+  let y = rect.top - 10;
+  el.style.transform = `translate(-${x}px,${y}px)`
+}
+
+function enter (el, done) {
+  document.body.offsetHeight;
+  el.style.transform = `translate(0,0)`
+  el.addEventListener(`transitioned`, done)
+}
+function afterEnter (el) {
+  animate.show = false;
+  el.style.display = "none"
+}
+function removeTodo (e, i) {
+  animate.el = e.target;
+  animate.show = true;
+  todos.value.splice(i, 1)
+}
 </script>
 <style>
 h1 {
@@ -108,5 +141,21 @@ h1 {
 .flip-list-leave-to {
   opacity: 0;
   transform: translateX(30px);
+}
+.remove-btn {
+  margin-left: 10px;
+}
+.dustbin {
+  position: fixed;
+  right: 10px;
+  top: 10px;
+  z-index: 100;
+}
+.animate-wrap .animate {
+  position: fixed;
+  right: 10px;
+  top: 10px;
+  z-index: 100;
+  transition: all 0.5s linear;
 }
 </style>
