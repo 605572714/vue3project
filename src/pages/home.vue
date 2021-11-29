@@ -2,6 +2,7 @@
   <div>这是首页</div>
   <TodoList></TodoList>
   <FavIcon></FavIcon>
+  <addStore></addStore>
   <Rate v-model="score" theme="yellow">
     <img src="../assets/avatar.png" width="16" alt />
   </Rate>
@@ -12,6 +13,7 @@
 import TodoList from '../components/TodoList.vue';
 import FavIcon from '../components/FavIcon.vue';
 import Rate from '../components/Rate.vue';
+import addStore from '../components/addStore.vue';
 import { useFullscreen } from "@vueuse/core";
 import { ref } from 'vue';
 const { isFullscreen, enter, exit, toggle } = useFullscreen()
