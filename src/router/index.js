@@ -1,11 +1,7 @@
-// import {
-//   createRouter,
-//   createWebHashHistory
-// } from 'vue-router';
 import {
   createRouter,
   createWebHashHistory
-} from './grouter/index';
+} from 'vue-router';
 import About from '../pages/about.vue';
 
 import Home from '../pages/home.vue';
