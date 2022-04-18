@@ -3,32 +3,32 @@
 // } from "./gvuex";
 import {
   createStore
-} from "vuex";
+} from "vuex"
 const store = createStore({
-  state() {
+  state () {
     return {
       count: 666
     }
   },
   getters: {
-    double(state) {
+    double (state) {
       return state.count * 2
     }
   },
   mutations: {
-    add(state) {
+    add (state) {
       state.count++
     }
   },
   actions: {
-    asyncAdd({
+    asyncAdd ({
       commit
     }) {
       setTimeout(() => {
         commit('add')
-      }, 1000);
+      }, 1000)
     }
   }
 })
 
-export default store;
+export default store

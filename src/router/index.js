@@ -5,10 +5,10 @@
 import {
   createRouter,
   createWebHashHistory
-} from './grouter/index';
-import About from '../pages/about.vue';
+} from './grouter/index'
+import About from '../pages/about.vue'
 
-import Home from '../pages/home.vue';
+import Home from '../pages/home.vue'
 
 const routes = [{
   path: '/',
@@ -25,4 +25,4 @@ const router = createRouter({
   routes
 })
 
-export default router;
+export default router
